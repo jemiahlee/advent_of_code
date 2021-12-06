@@ -1,0 +1,1 @@
+perl -e 'undef $/; $_ = <>; for my $i (1..80){ s/(\d)/$1 > 0 ? $1 - 1 : "6,8"/ge;}; END{ print "Total: ", scalar(split /,/), "\n";}' input_part_1.txt
