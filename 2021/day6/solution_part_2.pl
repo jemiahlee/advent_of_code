@@ -6,7 +6,8 @@ use strict;
 undef $/;
 $_ = <>;
 
-my @input = generate_input_array($_);
+my @input;
+$input[$_]++ for grep /\d/, split /,/;
 
 for my $i (1..256) {
     @input = breed(\@input);
@@ -16,16 +17,6 @@ my $sum;
 map { $sum += $_ } @input;
 print "Sum: $sum\n";
 
-sub generate_input_array {
-    my $input = shift;
-    chomp $input;
-
-    my @arr;
-
-    map { $arr[$_]++ } grep /\d/, split /,/, $input;
-
-    return @arr;
-}
 
 sub breed {
     my $arr_ref = shift;
