@@ -4,11 +4,12 @@ use warnings;
 use strict;
 
 my %openers = (
-    '{' => 1,
     '(' => 1,
     '{' => 1,
     '[' => 1,
+    '<' => 1,
 );
+
 my %matches = (
     '{' => '}',
     '(' => ')',
@@ -26,21 +27,24 @@ my %points = (
 my $total_sum = 0;
 my $clean_line_count = 0;
 
-THIS_LINE:
+LINE:
 while(<>){
     chomp;
 
+    print "Processing line: $_\n";
+
     my @stack;
     foreach my $i (split //){
+        print "Processing $i\n" if $verbose;
         if($openers{$i}){
             push(@stack, $i);
         }
         elsif(@stack and $matches{$stack[-1]} eq $i){
             pop(@stack);
         }
-        elsif(@stack and not $openers{$i}){
+        elsif(@stack and not defined($openers{$i})){
             $total_sum += $points{$i};
-            last THIS_LINE;
+            next LINE;
         }
         else {
             # nothing here yet, this is the incomplete case.
