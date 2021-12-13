@@ -1,0 +1,12 @@
+recordify --col 1 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 2 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 3 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 4 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 5 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 6 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 7 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 8 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 9 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 10 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 11 --delimiter='\B' input_part_1.txt | sort | uniq -c
+recordify --col 12 --delimiter='\B' input_part_1.txt | sort | uniq -c
