@@ -1,0 +1,4 @@
+$ perl -n -e 'if($previous and $previous < $_){ $count++ } $previous = $_; END{ print $count, "\n"; }' input_part_1.txt
+1583
+$ perl -n -e 'if($previous and $previous_prime){ $current_sum = $previous + $previous_prime + $_; if ($previous_sum and $previous_sum < $current_sum){ $count++ } $previous_sum = $current_sum; } $previous_prime = $previous; $previous = $_; END{ print $count, "\n"; }' input_part_1.txt
+1627

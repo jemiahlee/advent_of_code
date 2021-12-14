@@ -1,0 +1,1 @@
+perl -n -e 's/(forward|down|up) (\d+)/$$1 += $2/e; END{ print "Forward: $forward\nTotal depth: ", $down - $up, "\nMultiplied: ", $forward*($down-$up), "\n";}' input_part_1.txt

@@ -1,0 +1,1 @@
+perl -n -e 's/down (\d+)/$aim += $1/e; s/up (\d+)/$aim -= $1/e; s/forward (\d+)/$hor += $1; $depth += ($1 * $aim)/e; END{ print "Forward: $hor\nTotal depth: ", $depth, "\nMultiplied: ", $depth*$hor, "\n";}' input_part_1.txt
