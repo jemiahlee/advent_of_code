@@ -19,7 +19,7 @@ while(<>){
     $rules{$from} = $to;
 }
 
-# print "Template: $polymer\n";
+print "Template: $polymer\n";
 for(my $i = 1; $i <= $NUMBER_OF_ITERATIONS; $i++){
     my $new_polymer = '';
 
@@ -33,7 +33,7 @@ for(my $i = 1; $i <= $NUMBER_OF_ITERATIONS; $i++){
     $new_polymer .= substr($polymer, length($polymer)-1, 1);
 
     $polymer = $new_polymer;
-    # print "After step $i: $polymer\n";
+    print "After step $i: $polymer\n";
 }
 
 print "Answer: ", compute_answer(), "\n";
