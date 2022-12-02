@@ -9,21 +9,9 @@ use strict;
 #     1        2          3
 
 my %outcomes = (
-    X => { 'C' => 'Y', 'B' => 'X', 'A' => 'Z'},
-    Y => { 'C' => 'Z', 'B' => 'Y', 'A' => 'X'},
-    Z => { 'C' => 'X', 'B' => 'Z', 'A' => 'Y'},
-);
-
-my %scores = (
-    X => 1,
-    Y => 2,
-    Z => 3,
-);
-
-my %outcome_scores = (
-    X => 0,
-    Y => 3,
-    Z => 6,
+    X => { 'C' => 2, 'B' => 1, 'A' => 3},
+    Y => { 'C' => 6, 'B' => 5, 'A' => 4},
+    Z => { 'C' => 7, 'B' => 9, 'A' => 8},
 );
 
 my $sum = 0;
@@ -31,8 +19,7 @@ my $sum = 0;
 while (<>) {
     my($abc, $xyz) = m/(\w) (\w)/;
 
-    $sum += $outcome_scores{$xyz};
-    $sum += $scores{$outcomes{$xyz}{$abc}};
+    $sum += $outcomes{$xyz}{$abc};
 }
 
 print "$sum\n";
