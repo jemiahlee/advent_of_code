@@ -9,17 +9,22 @@ use strict;
 #     1        2          3
 
 my %outcomes = (
-    X => { 'C' => 2, 'B' => 1, 'A' => 3},
-    Y => { 'C' => 6, 'B' => 5, 'A' => 4},
-    Z => { 'C' => 7, 'B' => 9, 'A' => 8},
+    'A X' => 3,
+    'A Y' => 4,
+    'A Z' => 8,
+    'B X' => 1,
+    'B Y' => 5,
+    'B Z' => 9,
+    'C X' => 2,
+    'C Y' => 6,
+    'C Z' => 7,
 );
 
 my $sum = 0;
 
 while (<>) {
-    my($abc, $xyz) = m/(\w) (\w)/;
-
-    $sum += $outcomes{$xyz}{$abc};
+    chomp;
+    $sum += $outcomes{$_};
 }
 
 print "$sum\n";
