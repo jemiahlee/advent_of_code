@@ -3,9 +3,20 @@
 use warnings;
 use strict;
 
+use Set::Scalar;
+
+my $length = 14;
+
 while(<>) {
     chomp;
 
-    m/(\w)(?!\1)(\w)(?!\1|\2)(\w)(?!\1|\2|\3)(\w)(?!\1|\2|\3|\4)(\w)(?!\1|\2|\3|\4|\5)(\w)(?!\1|\2|\3|\4|\5|\6)(\w)(?!\1|\2|\3|\4|\5|\6|\7)(\w)(?!\1|\2|\3|\4|\5|\6|\7|\8)(\w)(?!\1|\2|\3|\4|\5|\6|\7|\8|\9)(\w)(?!\1|\2|\3|\4|\5|\6|\7|\8|\9|\g10)(\w)(?!\1|\2|\3|\4|\5|\6|\7|\8|\9|\g10|\g11)(\w)(?!\1|\2|\3|\4|\5|\6|\7|\8|\9|\g10|\g11|\g12)(\w)(?!\1|\2|\3|\4|\5|\6|\7|\8|\9|\g10|\g11|\g12|\g13)\w/;
-    print "$&: $+[0]\n";
+    for my $index (0..(length() - $length)) {
+        my $substring = substr($_, $index, $length);
+        my $set = Set::Scalar->new(split //, $substring);
+
+        do {
+            print $substring, ': ', $index+$length, "\n";
+            last;
+        } if $set->size == $length;
+    }
 }
