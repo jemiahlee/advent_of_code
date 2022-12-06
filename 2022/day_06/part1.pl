@@ -14,9 +14,9 @@ while(<>) {
         my $substring = substr($_, $index, $length);
         my $set = Set::Scalar->new(split //, $substring);
 
-        do {
+        if($set->size == $length){
             print $substring, ': ', $index+$length, "\n";
             last;
-        } if $set->size == $length;
+        }
     }
 }
