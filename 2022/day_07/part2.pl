@@ -54,14 +54,22 @@ print STDERR "Free space: $FREE_SPACE\n";
 my $SPACE_NEEDED_TO_FREE = $TOTAL_SIZE_NEEDED - $FREE_SPACE;
 print STDERR "Space needed, at least $SPACE_NEEDED_TO_FREE\n";
 $struct = $root_struct;
+my $answer_size = 70_000_000;
+my $answer_dir = '';
 print_structure($struct, 0);
 
+print "Delete directory $answer_dir to save $answer_size bytes.\n";
 
 sub print_structure {
     my $struct = shift;
     my $depth = shift;
 
     print '  ' x ($depth), "- $struct->{'__NAME__'} (total_size=$struct->{'__TOTAL_SIZE__'})\n";
+
+    if($struct->{'__TOTAL_SIZE__'} > $SPACE_NEEDED_TO_FREE and $struct->{'__TOTAL_SIZE__'} < $answer_size){
+        $answer_dir = $struct->{'__NAME__'};
+        $answer_size = $struct->{'__TOTAL_SIZE__'};
+    }
 
     $depth++;
 
