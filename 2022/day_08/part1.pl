@@ -23,10 +23,6 @@ print "Number seen: $seen\n";
 sub is_visible {
     my($x, $y) = @_;
 
-    if($y == 0 or $y == $#data or $x == 0 or $x == $#{$data[$y]}){
-        return 1;
-    }
-
     my $height = $data[$y][$x];
 
     return 1 if is_tallest($height, @{$data[$y]}[0..$x-1]);

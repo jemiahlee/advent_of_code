@@ -28,10 +28,6 @@ print "Best scenic score: $best_scenic_score\n";
 sub score_tree {
     my($x, $y) = @_;
 
-    if($y == 0 or $y == $#data or $x == 0 or $x == $#{$data[$y]}){
-        return 0;
-    }
-
     my $height = $data[$y][$x];
 
     return
