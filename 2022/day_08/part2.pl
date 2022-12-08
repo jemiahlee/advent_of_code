@@ -3,6 +3,9 @@
 use warnings;
 use strict;
 
+use List::Util qw/product sum/;
+use List::MoreUtils qw/before_incl/;
+
 my @data;
 
 while(<>) {
@@ -28,24 +31,17 @@ print "Best scenic score: $best_scenic_score\n";
 sub score_tree {
     my($x, $y) = @_;
 
-    my $height = $data[$y][$x];
-
-    return
-        score_distance($height, reverse @{$data[$y]}[0..$x-1]) *
-        score_distance($height, @{$data[$y]}[$x+1..$#{$data[$y]}]) *
-        score_distance($height, reverse map {$data[$_][$x]} 0..$y-1) *
-        score_distance($height, map {$data[$_][$x]} $y+1..$#data);
-}
-
-sub score_distance {
-    my $height = shift;
-    my @other_trees = @_;
-
-    my $score = 0;
-    for my $other_tree (@other_trees){
-        $score++;
-        last if $height <= $other_tree;
+    if($y == 0 or $y == $#data or $x == 0 or $x == $#{$data[$y]}){
+        return 0;
     }
 
-    return $score;
+    my $height = $data[$y][$x];
+
+    my($top, $bottom, $left, $right);
+    $left++ for before_incl {not $_} map {$height > $_} reverse @{$data[$y]}[0..$x-1];
+    $right++ for before_incl {not $_} map {$height > $_} @{$data[$y]}[$x+1..$#{$data[$y]}];
+    $top++ for before_incl {not $_} map {$height > $_} reverse map {$data[$_][$x]} 0..$y-1;
+    $bottom++ for before_incl {not $_} map {$height > $_} map {$data[$_][$x]} $y+1..$#data;
+
+    return product($top, $bottom, $left, $right);
 }
