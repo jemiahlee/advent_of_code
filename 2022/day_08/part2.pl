@@ -37,6 +37,10 @@ sub score_tree {
 
     my $height = $data[$y][$x];
 
+    # my previous solution was probably more readable, but this is clever
+    # basically this just walks the four directions, scoring them as greater than current, or not.
+    # then, the before_incl stops walking them once the block is not true (ie, hit a false value)
+    # since we still *see* the one that is as tall or taller, ++ works here.
     my($top, $bottom, $left, $right);
     $left++ for before_incl {not $_} map {$height > $_} reverse @{$data[$y]}[0..$x-1];
     $right++ for before_incl {not $_} map {$height > $_} @{$data[$y]}[$x+1..$#{$data[$y]}];
