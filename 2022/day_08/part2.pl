@@ -16,8 +16,10 @@ for my $y (0..$#data){
     for my $x (0..$#{$data[$y]}) {
         my $scenic_score = score_tree($x, $y);
 
-        $best_scenic_score = $scenic_score if $scenic_score > $best_scenic_score;
-        print "Scenic score is $scenic_score for [$x,$y]\n";
+        do {
+            $best_scenic_score = $scenic_score;
+            print "Scenic score is $scenic_score for [$x,$y]\n";
+        } if $scenic_score > $best_scenic_score;
     }
 }
 
@@ -32,33 +34,22 @@ sub score_tree {
 
     my $height = $data[$y][$x];
 
-    my $top = 0;
-    for my $tree (reverse @{$data[$y]}[0..$x-1]){
-        $top++;
-        print "Adding one to top ($tree)\n" if $x == 2 && $y == 3;
-        last if $tree >= $height;
+    return
+        score_distance($height, reverse @{$data[$y]}[0..$x-1]) *
+        score_distance($height, @{$data[$y]}[$x+1..$#{$data[$y]}]) *
+        score_distance($height, reverse map {$data[$_][$x]} 0..$y-1) *
+        score_distance($height, map {$data[$_][$x]} $y+1..$#data);
+}
+
+sub score_distance {
+    my $height = shift;
+    my @other_trees = @_;
+
+    my $score = 0;
+    for my $other_tree (@other_trees){
+        $score++;
+        last if $height <= $other_tree;
     }
 
-    my $bottom = 0;
-    for my $tree (@{$data[$y]}[$x+1..$#{$data[$y]}]){
-        $bottom++;
-        print "Adding one to bottom ($tree)\n" if $x == 2 && $y == 3;
-        last if $tree >= $height;
-    }
-
-    my $left = 0;
-    for my $tree (reverse map {$data[$_][$x]} 0..$y-1){
-        print "Adding one to left ($tree)\n" if $x == 2 && $y == 3;
-        $left++;
-        last if $tree >= $height;
-    }
-
-    my $right = 0;
-    for my $tree (map {$data[$_][$x]} $y+1..$#data){
-        print "Adding one to right ($tree)\n" if $x == 2 && $y == 3;
-        $right++;
-        last if $tree >= $height;
-    }
-
-    return $top * $bottom * $right * $left;
+    return $score;
 }

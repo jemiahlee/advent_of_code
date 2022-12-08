@@ -29,40 +29,19 @@ sub is_visible {
 
     my $height = $data[$y][$x];
 
-    my $tallest = 1;
-    for my $tree (@{$data[$y]}[0..$x-1]){
-        $tallest = 0 if $tree >= $height;
+    return 1 if is_tallest($height, @{$data[$y]}[0..$x-1]);
+    return 1 if is_tallest($height, @{$data[$y]}[$x+1..$#{$data[$y]}]);
+    return 1 if is_tallest($height, map {$data[$_][$x]} 0..$y-1);
+    return 1 if is_tallest($height, map {$data[$_][$x]} $y+1..$#data);
+}
+
+sub is_tallest {
+    my $height = shift;
+    my @other_trees = @_;
+
+    for my $tree (@other_trees) {
+        return 0 if $tree >= $height;
     }
 
-    do {
-        return 1;
-    } if $tallest;
-
-    $tallest = 1;
-    for my $tree (@{$data[$y]}[$x+1..$#{$data[$y]}]){
-        $tallest = 0 if $tree >= $height;
-    }
-
-    do {
-        return 1;
-    } if $tallest;
-
-    $tallest = 1;
-    for my $tree (map {$data[$_][$x]} 0..$y-1){
-        $tallest = 0 if $tree >= $height;
-    }
-
-    do {
-        return 1;
-    } if $tallest;
-
-    $tallest = 1;
-    for my $tree (map {$data[$_][$x]} $y+1..$#data){
-        $tallest = 0 if $tree >= $height;
-    }
-
-    do {
-        return 1;
-    } if $tallest;
-
+    return 1;
 }
