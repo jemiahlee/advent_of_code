@@ -3,6 +3,8 @@
 use warnings;
 use strict;
 
+use List::Util qw/all/;
+
 my @data;
 
 while(<>) {
@@ -25,19 +27,8 @@ sub is_visible {
 
     my $height = $data[$y][$x];
 
-    return 1 if is_tallest($height, @{$data[$y]}[0..$x-1]);
-    return 1 if is_tallest($height, @{$data[$y]}[$x+1..$#{$data[$y]}]);
-    return 1 if is_tallest($height, map {$data[$_][$x]} 0..$y-1);
-    return 1 if is_tallest($height, map {$data[$_][$x]} $y+1..$#data);
-}
-
-sub is_tallest {
-    my $height = shift;
-    my @other_trees = @_;
-
-    for my $tree (@other_trees) {
-        return 0 if $tree >= $height;
-    }
-
-    return 1;
+    return 1 if all {$height > $_} @{$data[$y]}[0..$x-1];
+    return 1 if all {$height > $_} @{$data[$y]}[$x+1..$#{$data[$y]}];
+    return 1 if all {$height > $_} map {$data[$_][$x]} 0..$y-1;
+    return 1 if all {$height > $_} map {$data[$_][$x]} $y+1..$#data;
 }
