@@ -8,6 +8,13 @@ my %tail_positions;
 my %head = (x => 0, y => 0);
 my %tail = (x => 0, y => 0);
 
+my %sub_map = (
+    'R' => sub { $head{x}++ },
+    'L' => sub { $head{x}-- },
+    'U' => sub { $head{y}-- },
+    'D' => sub { $head{y}++ },
+);
+
 mark_tail();
 
 while(<>) {
@@ -20,49 +27,13 @@ while(<>) {
 
 print "Total positions visited: ", scalar(keys(%tail_positions)), "\n";
 
-my %sub_map = (
-    R => \&move_head_right,
-    L => \&move_head_left,
-    U => \&move_head_up,
-    D => \&move_head_down,
-);
-
 sub move_head {
     my($direction, $amount) = @_;
 
     for (1..$amount) {
-        if($direction eq 'R'){
-            move_head_right();
-        }
-        elsif($direction eq 'L'){
-            move_head_left();
-        }
-        elsif($direction eq 'U'){
-            move_head_up();
-        }
-        elsif($direction eq 'D'){
-            move_head_down();
-        }
-
+        $sub_map{$direction}();
         move_tail();
     }
-}
-
-sub move_head_right {
-    $head{x}++;
-}
-
-sub move_head_left {
-    $head{x}--;
-}
-
-sub move_head_up {
-#return if $head{y} == 1;
-    $head{y}--;
-}
-
-sub move_head_down {
-    $head{y}++;
 }
 
 sub move_tail {
