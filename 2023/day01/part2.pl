@@ -4,7 +4,6 @@ use warnings;
 use strict;
 
 my $sum = 0;
-my $numbers = qr{one|two|three|four|five|six|seven|eight|nine};
 
 my %lookup = (
     one => 1,
@@ -17,6 +16,9 @@ my %lookup = (
     eight => 8,
     nine => 9,
 );
+
+my $numbers = join("|", keys(%lookup));
+$numbers = qr{$numbers};
 
 while(<>){
     m{($numbers|\d)};
