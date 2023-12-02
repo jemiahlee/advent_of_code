@@ -18,13 +18,12 @@ my %lookup = (
 );
 
 my $numbers = join("|", keys(%lookup));
-$numbers = qr{$numbers};
 
 while(<>){
-    m{($numbers|\d)};
+    m{($numbers|\d)}o;
     my $first = $lookup{$1} || $1;
 
-    m{.*($numbers|\d)};
+    m{.*($numbers|\d)}o;
     my $second = $lookup{$1} || $1;
 
     my $number = $first . $second;
