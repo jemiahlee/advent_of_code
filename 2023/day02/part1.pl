@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-my %CUBES = (
+my %BALLS = (
     blue => 14,
     green => 13,
     red => 12,
@@ -31,7 +31,7 @@ sub is_valid_game {
 
     foreach my $pull (@pulls) {
         while($pull =~ m{(\d+) (\w+)}g) {
-            return 0 if $1 > $CUBES{$2};
+            return 0 if $1 > $BALLS{$2};
         }
     }
 

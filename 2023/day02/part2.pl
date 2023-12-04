@@ -3,12 +3,6 @@
 use warnings;
 use strict;
 
-my %CUBES = (
-    blue => 14,
-    green => 13,
-    red => 12,
-);
-
 my $sum;
 
 while(<>) {
