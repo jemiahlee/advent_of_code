@@ -3,8 +3,6 @@
 use warnings;
 use strict;
 
-use Data::Dumper;
-
 my @cards = qw/A K Q J T 9 8 7 6 5 4 3 2/;
 my %card_rank = (
     2  => 0,
@@ -43,28 +41,24 @@ while (<>) {
 foreach my $hand (keys %hands) {
     $hands{$hand}{rank} = rank_hand($hand);
 }
-print Dumper(\%hands);
+
 my $sum = 0;
 my @sorted_hands = sort hand_sort keys(%hands);
-print "@sorted_hands\n";
 
 for(my $i = 0; $i < scalar(@sorted_hands); $i++) {
     my $score = $hands{$sorted_hands[$i]}{bid} * ($i+1);
-    print "$sorted_hands[$i] => $hands{$sorted_hands[$i]}{rank} bid:$hands{$sorted_hands[$i]}{bid} * ($i+1);\n";
-    print "  Adding $score\n";
     $sum += $score;
 }
 
 print "Total score: $sum\n";
 
-print join(" ", sort sort_tie ('QQQTA', 'QT345')), "\n";
+
+### END OF MAIN ###
 
 sub sort_tie {
     my @a = split //, $a;
     my @b = split //, $b;
 
-    print "a in sort_tie is $a\n";
-    print "b in sort_tie is $b\n";
     foreach my $i (0..$#a) {
         my $order = $card_rank{$a[$i]} <=> $card_rank{$b[$i]};
 
@@ -109,17 +103,11 @@ sub rank_hand {
 }
 
 sub hand_sort {
-    print "a is $a\n";
-    print "b is $b\n";
-    print "HAND RANK $a ($hands{$a}{rank}) => $hand_rank{$hands{$a}{rank}}\n";
-    print "HAND RANK $b ($hands{$b}{rank}) => $hand_rank{$hands{$b}{rank}}\n";
     my $order = $hand_rank{$hands{$a}{rank}} <=> $hand_rank{$hands{$b}{rank}};
 
-    print "\$order is $order\n";
     if($order != 0) {
         return $order;
     }
 
-    print "Calling sort_tie\n";
     return sort_tie $a, $b;
 }
