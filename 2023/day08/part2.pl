@@ -18,14 +18,14 @@ while(<>) {
     $map{$start} = {left => $left, right => $right};
 }
 
-my $next_node = 'AAA';
-my $FINAL_NODE = 'ZZZ';
 my $step_count = 0;
 
 my @instructions = split //, $instructions;
 my $instruction_count = scalar(@instructions);
 
 my @next_nodes = sort grep /..A/, keys(%map);
+
+my @differences = (0) x @next_nodes;
 
 WALKING:
 while ('true') {
@@ -39,14 +39,28 @@ while ('true') {
     $step_count++;
     # map { print "Step $step_count: $_\n" } @next_nodes;
 
+    for(my $i = 0; $i < scalar(@next_nodes); $i++) {
+        if($differences[$i] == 0 && $next_nodes[$i] =~ /..Z/) {
+            my $difference = $step_count - $differences[$i];
+            $differences[$i] = $step_count;
+            # print "Index $i: At step $step_count, $next_nodes[$i] ends in Z (difference of $difference)\n";
+        }
+    }
+
+    # last if all {$_ > 0} @differences;
     last if all {/..Z/} @next_nodes;
-    @next_nodes = uniq @next_nodes;
 }
 
 print "Total steps: $step_count\n";
 
 
 ### END OF MAIN ###
+
+sub divisible_by_all {
+    my $number = shift;
+
+    return all {$number % $_ == 0} @differences;
+}
 
 sub traverse {
     my $direction = shift;
