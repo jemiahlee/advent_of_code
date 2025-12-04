@@ -13,7 +13,6 @@ while(m/(\d+)-(\d+)/g) {
 
     for(my $i = $lower; $i <= $upper; $i++){
         if($i =~ /^(\d+)\1+$/){
-            # print "$i is INVALID\n";
             $invalid_ids += $i;
         }
     }
